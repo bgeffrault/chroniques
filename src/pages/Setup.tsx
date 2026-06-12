@@ -7,6 +7,13 @@ import type { PrologueResponse } from "../types";
 
 type Phase = "names" | "loading" | "characters" | "error";
 
+const DEFAULT_SCENARIO = {
+  player1: "Baptiste",
+  player2: "Charlotte",
+  context:
+    "On joue deux chats : Aristote (un bâtard malin qui sait se faire chier pour manipuler ses maîtres) et Artémis (une chatte qui manipule facilement le maître Baptiste). Ils vivent dans une grande maison en campagne avec un grand jardin, chez Baptiste et Charlotte. Il y a aussi Atlas, un chien qui peut les aider ou les embêter. L'objectif des chats : réussir à obtenir deux fois de la pâtée dans la journée au lieu d'une seule. Ton humoristique, du point de vue des chats.",
+};
+
 export default function Setup() {
   const navigate = useNavigate();
   const { createGame } = useGame();
@@ -96,6 +103,18 @@ export default function Setup() {
               className="w-full bg-surface border border-text-muted/30 rounded-lg px-3 py-2 text-text focus:outline-none focus:border-accent resize-none"
             />
           </div>
+          {!player1 && !player2 && !customContext && (
+            <button
+              onClick={() => {
+                setPlayer1(DEFAULT_SCENARIO.player1);
+                setPlayer2(DEFAULT_SCENARIO.player2);
+                setCustomContext(DEFAULT_SCENARIO.context);
+              }}
+              className="w-full py-2 border border-accent/40 text-accent rounded-lg hover:bg-accent/10 transition-colors text-sm"
+            >
+              🐱 Aventure des chats — Aristote & Artémis
+            </button>
+          )}
           <button
             onClick={handleGenerate}
             disabled={!player1.trim() || !player2.trim()}

@@ -9,6 +9,7 @@ export interface Chapter {
   chosenOption: string | null;
   playerIndex: number;
   timestamp: string;
+  imageUrl?: string;
 }
 
 export interface Game {
@@ -31,10 +32,12 @@ export interface GeminiResponse {
   narrative: string;
   choices: string[];
   isEnding: boolean;
+  imagePrompt?: string;
 }
 
 export interface PrologueResponse {
   narrative: string;
   characters: [string, string];
   choices: string[];
+  imagePrompt: string;
 }

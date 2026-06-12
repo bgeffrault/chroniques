@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import { useGame } from "../hooks/useGame";
 import { getApiKey } from "../lib/storage";
-import { generateTurn, generateSummary, generateEpilogue } from "../lib/gemini";
+import { generateTurn, generateSummary, generateEpilogue, generateImage, IMAGE_INTERVAL } from "../lib/gemini";
 import NarrativeText from "../components/NarrativeText";
 import ChoicePanel from "../components/ChoicePanel";
 import PlayerBadge from "../components/PlayerBadge";
@@ -61,12 +61,26 @@ export default function Game() {
       if (response.isEnding) {
         finishGame(response.narrative);
       } else {
+        const chapterIndex = game.chapters.length;
+        const shouldGenerateImage =
+          response.imagePrompt && chapterIndex % IMAGE_INTERVAL === 0;
+
+        let imageUrl: string | undefined;
+        if (shouldGenerateImage && response.imagePrompt) {
+          try {
+            imageUrl = await generateImage(apiKey, response.imagePrompt);
+          } catch {
+            // Image generation is best-effort
+          }
+        }
+
         addChapter({
           text: response.narrative,
           choices: response.choices,
           chosenOption: null,
           playerIndex: updatedGame.currentTurn,
           timestamp: new Date().toISOString(),
+          imageUrl,
         });
       }
     } catch (e) {
@@ -110,7 +124,7 @@ export default function Game() {
 
       <hr className="border-text-muted/20" />
 
-      <NarrativeText text={lastChapter.text} />
+      <NarrativeText text={lastChapter.text} imageUrl={lastChapter.imageUrl} />
 
       {waitingForChoice && !loading && (
         <>

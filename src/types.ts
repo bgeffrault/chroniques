@@ -9,7 +9,7 @@ export interface Chapter {
   chosenOption: string | null;
   playerIndex: number;
   timestamp: string;
-  imageUrl?: string;
+  imagePrompt?: string;
 }
 
 export interface Game {

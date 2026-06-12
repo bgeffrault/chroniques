@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { getApiKey } from "../lib/storage";
-import { generatePrologue, generateImage } from "../lib/gemini";
+import { generatePrologue } from "../lib/gemini";
 import { useGame } from "../hooks/useGame";
+import AsyncImage from "../components/AsyncImage";
 import type { PrologueResponse } from "../types";
 
 type Phase = "names" | "loading" | "characters" | "error";
@@ -26,7 +27,6 @@ export default function Setup() {
   const [char1, setChar1] = useState("");
   const [char2, setChar2] = useState("");
   const [error, setError] = useState("");
-  const [prologueImage, setPrologueImage] = useState<string | undefined>();
 
   async function handleGenerate() {
     const apiKey = getApiKey();
@@ -48,11 +48,6 @@ export default function Setup() {
       setChar1(result.characters[0]);
       setChar2(result.characters[1]);
       setPhase("characters");
-      if (result.imagePrompt) {
-        generateImage(apiKey, result.imagePrompt)
-          .then(setPrologueImage)
-          .catch(() => {});
-      }
     } catch (e) {
       setError(e instanceof Error ? e.message : "Erreur lors de la génération.");
       setPhase("error");
@@ -69,7 +64,7 @@ export default function Setup() {
       prologue.narrative,
       prologue.choices,
       customContext.trim() || null,
-      prologueImage
+      prologue.imagePrompt
     );
     navigate("/game");
   }
@@ -141,13 +136,7 @@ export default function Setup() {
 
       {phase === "characters" && prologue && (
         <div className="space-y-6 animate-fade-in">
-          {prologueImage && (
-            <img
-              src={prologueImage}
-              alt="Illustration du prologue"
-              className="w-full rounded-lg border border-text-muted/20"
-            />
-          )}
+          {prologue.imagePrompt && <AsyncImage prompt={prologue.imagePrompt} />}
           <div className="font-serif text-lg leading-relaxed whitespace-pre-line">
             {prologue.narrative}
           </div>

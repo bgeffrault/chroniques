@@ -1,22 +1,17 @@
 import { useTts } from "../hooks/useTts";
+import AsyncImage from "./AsyncImage";
 
 interface Props {
   text: string;
-  imageUrl?: string;
+  imagePrompt?: string;
 }
 
-export default function NarrativeText({ text, imageUrl }: Props) {
+export default function NarrativeText({ text, imagePrompt }: Props) {
   const { speaking, paused, speak, pause, resume, stop } = useTts();
 
   return (
     <div className="space-y-3 animate-fade-in">
-      {imageUrl && (
-        <img
-          src={imageUrl}
-          alt="Illustration de la scène"
-          className="w-full rounded-lg border border-text-muted/20"
-        />
-      )}
+      {imagePrompt && <AsyncImage prompt={imagePrompt} />}
       <div className="font-serif text-lg leading-relaxed whitespace-pre-line">
         {text}
       </div>

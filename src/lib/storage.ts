@@ -12,7 +12,7 @@ export const DEFAULT_SETTINGS: Settings = {
 };
 
 export function getApiKey(): string | null {
-  return localStorage.getItem(KEYS.apiKey);
+  return localStorage.getItem(KEYS.apiKey) || import.meta.env.VITE_GEMINI_API_KEY || null;
 }
 
 export function setApiKey(key: string): void {

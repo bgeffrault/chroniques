@@ -17,8 +17,7 @@ export function useGame() {
       players: [Player, Player],
       prologueText: string,
       firstChoices: string[],
-      customContext: string | null,
-      prologueImagePrompt?: string
+      customContext: string | null
     ) => {
       const newGame: Game = {
         id: crypto.randomUUID(),
@@ -33,7 +32,6 @@ export function useGame() {
             chosenOption: null,
             playerIndex: 0,
             timestamp: new Date().toISOString(),
-            imagePrompt: prologueImagePrompt,
           },
         ],
         summary: null,

@@ -23,14 +23,6 @@ function getTextModel(apiKey: string) {
   return genAI.getGenerativeModel({ model: MODEL });
 }
 
-function getImageModel(apiKey: string) {
-  const genAI = new GoogleGenerativeAI(apiKey);
-  return genAI.getGenerativeModel({
-    model: "gemini-2.0-flash-preview-image-generation",
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    generationConfig: { responseModalities: ["IMAGE", "TEXT"] } as any,
-  });
-}
 
 function parseJSON<T>(text: string): T {
   const cleaned = text.replace(/```json\n?|```\n?/g, "").trim();
@@ -72,26 +64,6 @@ export async function generateSummary(
     buildSummaryPrompt(chaptersToSummarize)
   );
   return result.response.text().trim();
-}
-
-export const IMAGE_INTERVAL = 4;
-
-export async function generateImage(
-  apiKey: string,
-  prompt: string
-): Promise<string> {
-  const model = getImageModel(apiKey);
-  const result = await model.generateContent(
-    `Generate a beautiful storybook-style illustration: ${prompt}. Style: warm colors, painterly, atmospheric, no text or words in the image.`
-  );
-  const parts = result.response.candidates?.[0]?.content?.parts ?? [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const imagePart = parts.find((p: any) => p.inlineData);
-  if (!imagePart || !("inlineData" in imagePart)) {
-    throw new Error("No image generated");
-  }
-  const { mimeType, data } = imagePart.inlineData as { mimeType: string; data: string };
-  return `data:${mimeType};base64,${data}`;
 }
 
 export async function generateEpilogue(

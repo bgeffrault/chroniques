@@ -17,11 +17,8 @@ Tu DOIS répondre en JSON valide avec ce format exact :
 {
   "narrative": "Le texte narratif ici...",
   "choices": ["Choix A", "Choix B", "Choix C"],
-  "isEnding": false,
-  "imagePrompt": "A detailed visual description in English for generating an illustration of the key scene"
+  "isEnding": false
 }
-
-Le champ imagePrompt décrit visuellement la scène principale du passage en anglais, style illustration fantasy/storybook. Sois précis sur l'ambiance, les personnages, le décor et l'action.
 
 Quand isEnding est true, le tableau choices doit être vide.`;
 }
@@ -44,8 +41,7 @@ Réponds en JSON avec ce format :
 {
   "narrative": "Le prologue...",
   "characters": ["Nom personnage joueur 1", "Nom personnage joueur 2"],
-  "choices": ["Choix A", "Choix B", "Choix C"],
-  "imagePrompt": "A detailed visual description in English for generating an illustration of the opening scene"
+  "choices": ["Choix A", "Choix B", "Choix C"]
 }`;
 }
 

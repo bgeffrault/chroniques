@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 import { getApiKey } from "../lib/storage";
 import { generatePrologue } from "../lib/gemini";
 import { useGame } from "../hooks/useGame";
-import AsyncImage from "../components/AsyncImage";
 import type { PrologueResponse } from "../types";
 
 type Phase = "names" | "loading" | "characters" | "error";
@@ -63,8 +62,7 @@ export default function Setup() {
       ],
       prologue.narrative,
       prologue.choices,
-      customContext.trim() || null,
-      prologue.imagePrompt
+      customContext.trim() || null
     );
     navigate("/game");
   }
@@ -136,7 +134,6 @@ export default function Setup() {
 
       {phase === "characters" && prologue && (
         <div className="space-y-6 animate-fade-in">
-          {prologue.imagePrompt && <AsyncImage prompt={prologue.imagePrompt} />}
           <div className="font-serif text-lg leading-relaxed whitespace-pre-line">
             {prologue.narrative}
           </div>

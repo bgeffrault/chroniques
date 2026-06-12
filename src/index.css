@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;600&display=swap");
+
+@theme {
+  --font-serif: "Lora", serif;
+  --font-sans: "Inter", sans-serif;
+  --color-bg: #0a0a0f;
+  --color-surface: #14141f;
+  --color-text: #e8e6e3;
+  --color-text-muted: #9a9a9a;
+  --color-accent: #c9a84c;
+  --color-player1: #6ea8d9;
+  --color-player2: #d97c6e;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility animate-fade-in {
+  animation: fade-in 0.6s ease-out;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}

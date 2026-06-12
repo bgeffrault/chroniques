@@ -1,5 +1,3 @@
-let currentUtterance: SpeechSynthesisUtterance | null = null;
-
 export function speak(
   text: string,
   rate: number = 1.0,
@@ -10,7 +8,6 @@ export function speak(
   utterance.lang = "fr-FR";
   utterance.rate = rate;
   if (onEnd) utterance.onend = onEnd;
-  currentUtterance = utterance;
   speechSynthesis.speak(utterance);
 }
 
@@ -24,7 +21,6 @@ export function resume(): void {
 
 export function stop(): void {
   speechSynthesis.cancel();
-  currentUtterance = null;
 }
 
 export function isSpeaking(): boolean {
